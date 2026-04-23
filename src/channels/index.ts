@@ -50,5 +50,8 @@ import './imessage.js';
 // whatsapp (native, no Chat SDK)
 import './whatsapp.js';
 
+// signal (native, no Chat SDK — signal-cli TCP JSON-RPC daemon)
+// import './signal.js';
+
 // emacs (native HTTP bridge, no Chat SDK)
 // import './emacs.js';

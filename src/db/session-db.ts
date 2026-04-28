@@ -102,14 +102,20 @@ export function insertMessage(
     trigger?: 0 | 1;
   },
 ): void {
-  db.prepare(
-    `INSERT INTO messages_in (id, seq, kind, timestamp, status, platform_id, channel_type, thread_id, content, process_after, recurrence, series_id, trigger)
+  const trigger = message.trigger ?? 1;
+  const result = db.prepare(
+    `INSERT OR IGNORE INTO messages_in (id, seq, kind, timestamp, status, platform_id, channel_type, thread_id, content, process_after, recurrence, series_id, trigger)
      VALUES (@id, @seq, @kind, @timestamp, 'pending', @platformId, @channelType, @threadId, @content, @processAfter, @recurrence, @id, @trigger)`,
   ).run({
     ...message,
-    trigger: message.trigger ?? 1,
+    trigger,
     seq: nextEvenSeq(db),
   });
+  // If the row already existed and this write wants to wake the agent,
+  // escalate: flip trigger 0→1 so the message isn't silently swallowed.
+  if (result.changes === 0 && trigger === 1) {
+    db.prepare(`UPDATE messages_in SET trigger = 1 WHERE id = ? AND trigger = 0`).run(message.id);
+  }
 }
 
 export function countDueMessages(db: Database.Database): number {

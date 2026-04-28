@@ -8,6 +8,7 @@
 import Database from 'better-sqlite3';
 
 import { INBOUND_SCHEMA, OUTBOUND_SCHEMA } from './schema.js';
+import { log } from '../log.js';
 
 /** Apply the inbound or outbound schema to a DB file. Idempotent. */
 export function ensureSchema(dbPath: string, schema: 'inbound' | 'outbound'): void {
@@ -113,10 +114,11 @@ export function insertMessage(
       trigger,
       seq: nextEvenSeq(db),
     });
-  // If the row already existed and this write wants to wake the agent,
-  // escalate: flip trigger 0→1 so the message isn't silently swallowed.
-  if (result.changes === 0 && trigger === 1) {
-    db.prepare(`UPDATE messages_in SET trigger = 1 WHERE id = ? AND trigger = 0`).run(message.id);
+  if (result.changes === 0) {
+    log.warn('Duplicate message ID ignored', { id: message.id });
+    if (trigger === 1) {
+      db.prepare(`UPDATE messages_in SET trigger = 1 WHERE id = ? AND trigger = 0`).run(message.id);
+    }
   }
 }
 

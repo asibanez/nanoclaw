@@ -1,4 +1,3 @@
-import * as fs from 'fs';
 import { spawn, type ChildProcess } from 'child_process';
 
 import { createOpencodeClient, type OpencodeClient } from '@opencode-ai/sdk';
@@ -62,29 +61,10 @@ function spawnOpencodeServer(config: Record<string, unknown>, timeoutMs = 10_000
   });
 }
 
-function readClaudeMdForPrompt(): string | undefined {
-  const groupPath = '/workspace/agent/CLAUDE.md';
-  const globalPath = '/workspace/global/CLAUDE.md';
-  let content = '';
-  if (fs.existsSync(groupPath)) {
-    content += fs.readFileSync(groupPath, 'utf-8');
-  }
-  const isMain = process.env.NANOCLAW_IS_MAIN === '1';
-  if (!isMain && fs.existsSync(globalPath)) {
-    if (content) content += '\n\n---\n\n';
-    content += fs.readFileSync(globalPath, 'utf-8');
-  }
-  return content || undefined;
-}
-
 function wrapPromptWithContext(text: string, systemInstructions?: string): string {
   let out = text;
   if (systemInstructions) {
     out = `<system>\n${systemInstructions}\n</system>\n\n${out}`;
-  }
-  const claudeMd = readClaudeMdForPrompt();
-  if (claudeMd) {
-    out = `<system>\n${claudeMd}\n</system>\n\n${out}`;
   }
   return out;
 }
@@ -119,6 +99,19 @@ function buildOpenCodeConfig(options: ProviderOptions): Record<string, unknown> 
 
   const mcp = mcpServersToOpenCodeConfig(options.mcpServers);
 
+  // Load shared base + per-group fragments + per-group memory through OpenCode's
+  // native instructions pipeline (session/instruction.ts). Absolute paths with
+  // globs are supported. Files are read raw — `@./...` includes are NOT expanded
+  // by OpenCode, so point at the concrete files, not at composed CLAUDE.md.
+  const instructions = [
+    '/app/CLAUDE.md',
+    '/workspace/agent/.claude-fragments/*.md',
+    '/workspace/agent/CLAUDE.local.md',
+  ];
+  if (process.env.NANOCLAW_IS_MAIN !== '1') {
+    instructions.push('/workspace/global/CLAUDE.md');
+  }
+
   return {
     ...(model ? { model } : {}),
     ...(smallModel ? { small_model: smallModel } : {}),
@@ -127,6 +120,7 @@ function buildOpenCodeConfig(options: ProviderOptions): Record<string, unknown> 
     autoupdate: false,
     snapshot: false,
     provider: providerOptions,
+    instructions,
     mcp,
   };
 }

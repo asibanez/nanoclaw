@@ -17,6 +17,19 @@ const SESSION_STATUS_RETRY_ERROR_AFTER = 3;
 const STALE_SESSION_RE =
   /no conversation found|ENOENT.*\.jsonl|session.*not found|NotFoundError|connection reset|ECONNRESET|404|event timeout/i;
 
+function killProcessTree(proc: ChildProcess): void {
+  if (!proc.pid) return;
+  try {
+    process.kill(-proc.pid, 'SIGKILL');
+  } catch {
+    try {
+      proc.kill('SIGKILL');
+    } catch {
+      /* ignore */
+    }
+  }
+}
+
 function spawnOpencodeServer(config: Record<string, unknown>, timeoutMs = 10_000): Promise<{ url: string; proc: ChildProcess }> {
   return new Promise((resolve, reject) => {
     const hostname = '127.0.0.1';
@@ -26,10 +39,11 @@ function spawnOpencodeServer(config: Record<string, unknown>, timeoutMs = 10_000
         ...process.env,
         OPENCODE_CONFIG_CONTENT: JSON.stringify(config),
       },
+      detached: true,
     });
 
     const id = setTimeout(() => {
-      proc.kill('SIGKILL');
+      killProcessTree(proc);
       reject(new Error(`Timeout waiting for OpenCode server to start after ${timeoutMs}ms`));
     }, timeoutMs);
 
@@ -189,11 +203,7 @@ export function destroySharedRuntime(): void {
     } catch {
       /* ignore */
     }
-    try {
-      sharedRuntime.proc.kill('SIGKILL');
-    } catch {
-      /* ignore */
-    }
+    killProcessTree(sharedRuntime.proc);
     sharedRuntime = null;
     sharedConfigKey = null;
   }
@@ -243,7 +253,7 @@ export class OpenCodeProvider implements AgentProvider {
     };
 
     const self = this;
-    const IDLE_TIMEOUT_MS = 90_000;
+    const IDLE_TIMEOUT_MS = Number(process.env.OPENCODE_IDLE_TIMEOUT_MS) || 300_000;
 
     async function* gen(): AsyncGenerator<ProviderEvent> {
       let initYielded = false;

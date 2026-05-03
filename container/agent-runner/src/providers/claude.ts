@@ -32,6 +32,28 @@ const SDK_DISALLOWED_TOOLS = [
   'ExitPlanMode',
   'EnterWorktree',
   'ExitWorktree',
+  // Gmail destructive — TOOL_ALLOWLIST alone is insufficient (ToolSearch can
+  // bypass it). send_email is replaced by mcp__nanoclaw__gmail_send which
+  // gates on a Telegram Send/Cancel confirmation card.
+  'mcp__gmail__send_email',
+  'mcp__gmail__delete_email',
+  'mcp__gmail__modify_email',
+  'mcp__gmail__batch_modify_emails',
+  'mcp__gmail__batch_delete_emails',
+  'mcp__gmail__create_label',
+  'mcp__gmail__update_label',
+  'mcp__gmail__delete_label',
+  'mcp__gmail__get_or_create_label',
+  'mcp__gmail__create_filter',
+  'mcp__gmail__create_filter_from_template',
+  'mcp__gmail__delete_filter',
+  // Calendar destructive — calendar is intentionally read-only.
+  'mcp__calendar__create-event',
+  'mcp__calendar__create-events',
+  'mcp__calendar__update-event',
+  'mcp__calendar__delete-event',
+  'mcp__calendar__respond-to-event',
+  'mcp__calendar__manage-accounts',
 ];
 
 // Tool allowlist for NanoClaw agent containers
@@ -55,6 +77,20 @@ const TOOL_ALLOWLIST = [
   'Skill',
   'NotebookEdit',
   'mcp__nanoclaw__*',
+  // Google Calendar — read-only (create-event, update-event, delete-event intentionally excluded)
+  'mcp__calendar__list-calendars',
+  'mcp__calendar__list-events',
+  'mcp__calendar__search-events',
+  'mcp__calendar__get-event',
+  'mcp__calendar__get-freebusy',
+  'mcp__calendar__get-current-time',
+  'mcp__calendar__list-colors',
+  // Gmail — read only (send goes through mcp__nanoclaw__gmail_send which gates on Telegram confirmation)
+  'mcp__gmail__search_emails',
+  'mcp__gmail__read_email',
+  'mcp__gmail__download_attachment',
+  'mcp__gmail__list_email_labels',
+  'mcp__gmail__draft_email',
 ];
 
 interface SDKUserMessage {

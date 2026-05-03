@@ -84,7 +84,11 @@ async function transcribeVoice(base64Data: string, mimeType: string): Promise<st
   const { GROQ_API_KEY } = readEnvFile(['GROQ_API_KEY']);
   if (!GROQ_API_KEY) return null;
 
-  const ext = mimeType?.includes('ogg') ? 'ogg' : mimeType?.includes('mp3') || mimeType?.includes('mpeg') ? 'mp3' : 'ogg';
+  const ext = mimeType?.includes('ogg')
+    ? 'ogg'
+    : mimeType?.includes('mp3') || mimeType?.includes('mpeg')
+      ? 'mp3'
+      : 'ogg';
   const buffer = Buffer.from(base64Data, 'base64');
   const form = new FormData();
   form.append('file', new Blob([buffer], { type: mimeType || 'audio/ogg' }), `voice.${ext}`);

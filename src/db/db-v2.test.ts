@@ -402,6 +402,7 @@ describe('pending questions', () => {
       channel_type: 'discord',
       thread_id: null,
       title: 'Test',
+      question: '',
       options: [{ label: 'Yes', selectedLabel: 'Yes', value: 'yes' }],
       created_at: now(),
     });
@@ -421,6 +422,7 @@ describe('pending questions', () => {
       channel_type: null,
       thread_id: null,
       title: 'Test',
+      question: '',
       options: [{ label: 'Yes', selectedLabel: 'Yes', value: 'yes' }],
       created_at: now(),
     });

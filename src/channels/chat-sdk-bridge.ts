@@ -281,13 +281,15 @@ export function createChatSdkBridge(config: ChatSdkBridgeConfig): ChannelAdapter
         const title = render?.title ?? '❓ Question';
         const matched = render?.options.find((o) => o.value === selectedOption);
         const selectedLabel = matched?.selectedLabel ?? selectedOption ?? '(clicked)';
+        const question = render?.question;
 
-        // Update the card to show the selected answer and remove buttons
+        // Update the card to show the selected answer and remove buttons.
+        // Keep the original question text so the user can still see what
+        // they decided on (useful for iterating on canceled drafts).
         try {
           const tid = event.threadId;
-          await adapter.editMessage(tid, event.messageId, {
-            markdown: `${title}\n\n${selectedLabel}`,
-          });
+          const body = question ? `${title}\n\n${question}\n\n${selectedLabel}` : `${title}\n\n${selectedLabel}`;
+          await adapter.editMessage(tid, event.messageId, { markdown: body });
         } catch (err) {
           log.warn('Failed to update card after action', { err });
         }

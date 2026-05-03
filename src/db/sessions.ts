@@ -106,8 +106,8 @@ export function deleteSession(id: string): void {
 export function createPendingQuestion(pq: PendingQuestion): boolean {
   const result = getDb()
     .prepare(
-      `INSERT OR IGNORE INTO pending_questions (question_id, session_id, message_out_id, platform_id, channel_type, thread_id, title, options_json, created_at)
-       VALUES (@question_id, @session_id, @message_out_id, @platform_id, @channel_type, @thread_id, @title, @options_json, @created_at)`,
+      `INSERT OR IGNORE INTO pending_questions (question_id, session_id, message_out_id, platform_id, channel_type, thread_id, title, question, options_json, created_at)
+       VALUES (@question_id, @session_id, @message_out_id, @platform_id, @channel_type, @thread_id, @title, @question, @options_json, @created_at)`,
     )
     .run({
       question_id: pq.question_id,
@@ -117,6 +117,7 @@ export function createPendingQuestion(pq: PendingQuestion): boolean {
       channel_type: pq.channel_type,
       thread_id: pq.thread_id,
       title: pq.title,
+      question: pq.question,
       options_json: JSON.stringify(pq.options),
       created_at: pq.created_at,
     });
@@ -199,9 +200,9 @@ export function getPendingApprovalsByAction(action: string): PendingApproval[] {
  */
 export function getAskQuestionRender(
   id: string,
-): { title: string; options: import('../channels/ask-question.js').NormalizedOption[] } | undefined {
+): { title: string; question?: string; options: import('../channels/ask-question.js').NormalizedOption[] } | undefined {
   const q = getPendingQuestion(id);
-  if (q) return { title: q.title, options: q.options };
+  if (q) return { title: q.title, question: q.question, options: q.options };
   const a = getDb().prepare('SELECT title, options_json FROM pending_approvals WHERE approval_id = ?').get(id) as
     | { title: string; options_json: string }
     | undefined;

@@ -19,8 +19,17 @@ Silently save personal facts to the vault as they come up in conversation — do
 - Capture: relationship to Santi, key facts, anything meaningful Santi shares about them
 
 **Santi's own facts** → `Me.md`
-- Preferences, habits, important life context
-- Always append with a `YYYY-MM-DD` date stamp; never overwrite existing entries
+Always append with a `YYYY-MM-DD` date stamp; never overwrite existing entries. Save silently whenever Santi reveals something personal — no confirmation needed. This file is a living profile that grows over time.
+
+What to capture (non-exhaustive — use judgment):
+- Identity & location: where he lives, languages spoken, timezone, nationality
+- Work: role, company, industry, projects, travel patterns, colleagues
+- Family & relationships: partner, family members, close friends, living situation
+- Health: conditions, medications, diet, exercise habits, sleep patterns
+- Preferences: food, hobbies, music, sports, routines, things he dislikes
+- Goals & values: what he's working toward, what matters to him, recurring concerns
+- Finances & lifestyle: spending habits, major purchases, life stage context
+- Personality & communication: how he likes to be spoken to, humor, energy level
 
 Bilingual rule: if input was non-English, store both the original and an English translation using the format from the Language section below.
 

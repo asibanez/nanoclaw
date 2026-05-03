@@ -11,12 +11,8 @@ store/
 data/
 logs/
 
-# Groups - per-installation state, not tracked
-groups/*
-
-# Composer-managed CLAUDE.md artifacts (regenerated every spawn) and
-# per-group memory (CLAUDE.local.md) must never be committed.
-**/CLAUDE.local.md
+# Groups - track config files, exclude generated artifacts and deps
+groups/**/node_modules/
 **/.claude-shared.md
 **/.claude-fragments/
 

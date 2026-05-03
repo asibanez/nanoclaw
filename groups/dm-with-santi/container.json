@@ -1,0 +1,33 @@
+{
+  "mcpServers": {
+    "gmail": {
+      "command": "gmail-mcp",
+      "args": [],
+      "env": {
+        "GMAIL_OAUTH_PATH": "/workspace/extra/.gmail-mcp/gcp-oauth.keys.json",
+        "GMAIL_CREDENTIALS_PATH": "/workspace/extra/.gmail-mcp/credentials.json"
+      }
+    },
+    "calendar": {
+      "command": "google-calendar-mcp",
+      "args": [],
+      "env": {
+        "GOOGLE_OAUTH_CREDENTIALS": "/workspace/extra/.calendar-mcp/gcp-oauth.keys.json",
+        "GOOGLE_CALENDAR_MCP_TOKEN_PATH": "/workspace/extra/.calendar-mcp/credentials.json"
+      }
+    }
+  },
+  "packages": {
+    "apt": [],
+    "npm": []
+  },
+  "additionalMounts": [
+    { "hostPath": "/home/asibanez/obsidian/vault", "containerPath": "obsidian", "readonly": false },
+    { "hostPath": "/home/asibanez/.calendar-mcp", "containerPath": ".calendar-mcp", "readonly": false },
+    { "hostPath": "/home/asibanez/.gmail-mcp", "containerPath": ".gmail-mcp", "readonly": false }
+  ],
+  "skills": "all",
+  "groupName": "Mind2",
+  "assistantName": "Mind2",
+  "agentGroupId": "ag-1777699665192-sc5sjd"
+}

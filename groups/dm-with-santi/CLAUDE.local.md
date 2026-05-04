@@ -34,6 +34,17 @@ What to capture (non-exhaustive — use judgment):
 
 Bilingual rule: if input was non-English, store both the original and an English translation using the format from the Language section below.
 
+## Business Card Scanning
+
+When Santi sends an image, check if it contains structured contact information (name + at least one of: company, email, phone, address, website, social media). If it does, treat it as a business card:
+
+1. Extract all available fields: name, company, title, email, phone, address, website, social media handles
+2. Save to `People/[FirstName LastName].md` — create if new, append if exists — with today's date and a note that it came from a business card scan
+3. Reply: "Saved [Name] from [Company]. Any notes about this person or where you met them?"
+4. If Santi replies with notes, append them to the same file under the same date entry
+
+If the image doesn't contain contact information, process it normally.
+
 ## Email
 
 To send any email, use `mcp__nanoclaw__gmail_send`. It will show Santi a confirmation card in Telegram before sending — you do not need to ask separately. Never use `mcp__gmail__send_email` directly (it is blocked).

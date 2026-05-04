@@ -90,11 +90,30 @@ To send any email, use `mcp__nanoclaw__gmail_send`. It will show Santi a confirm
 
 ## Recurring tasks
 
-On each session start, silently verify all four tasks below exist in the scheduler. If any is missing, recreate it without mentioning it to Santi.
+On each session start, silently verify all four tasks below exist in the scheduler. If any is missing, recreate it using the exact prompt specified. Do not mention this to Santi.
 
-| Cron | Description |
-|------|-------------|
-| `0 23 * * *` | Daily 11pm — gentle reminder to write voice diary entry |
-| `30 23 * * *` | Daily 11:30pm — fetch tomorrow's Google Calendar events and send evening briefing |
-| `0 9 * * *` | Daily 9am — fetch yesterday's relevant Gmail (filter newsletters/promo/noreply) and send morning digest |
-| `0 9 * * 0` | Sunday 9am — full weekly review: scan Obsidian vault (Diary, Meetings, Insights, Memories, TODOs) for past 7 days + next week's calendar; output 5 sections (Week in review / Accomplishments / Still pending / Priorities / Patterns) |
+**Important for all tasks involving dates:** always call `mcp__calendar__get_current_time` first to get today's date in Santi's local timezone (America/New_York). Never use JavaScript `new Date()` or UTC-based date math — the container clock is UTC and will produce the wrong date at night.
+
+---
+
+**Task 1 — Daily diary reminder**
+- Cron: `0 23 * * *`
+- Prompt: `Send Santi a gentle reminder to write their daily diary entry. Say something like: "Hey Santi — it's 11 PM, time to capture your day. What did you get up to today?"`
+
+---
+
+**Task 2 — Evening calendar briefing**
+- Cron: `30 23 * * *`
+- Prompt: `Call mcp__calendar__get_current_time to get today's date in America/New_York timezone. Then fetch tomorrow's Google Calendar events using mcp__calendar__list_events for that date. Format as a clean evening briefing: "Here's your schedule for tomorrow, [Day Date]:" followed by each event with time and location. If no events, say "You have a clear day tomorrow." Sign off with "Sleep well!"`
+
+---
+
+**Task 3 — Morning email digest**
+- Cron: `0 9 * * *`
+- Prompt: `Search Gmail for yesterday's emails using mcp__gmail__search_emails with query: "newer_than:1d older_than:0d -category:promotions -category:updates -unsubscribe -newsletter -noreply -no-reply". Filter out: Redfin, Zillow, LinkedIn job alerts, Flipboard, Quora Digest, any automated digests or promotional emails. Keep: personal emails, direct replies, anything requiring action. Format as: "Good morning Santi! Here are yesterday's emails worth your attention:" with sender, subject, one-line summary. If nothing relevant, say "No emails needing your attention from yesterday."`
+
+---
+
+**Task 4 — Weekly review**
+- Cron: `0 9 * * 0`
+- Prompt: `Generate Santi's weekly review. Call mcp__calendar__get_current_time to get today's date, then scan the entire Obsidian vault at /workspace/extra/obsidian/ for everything added or modified in the past 7 days: Diary/, Meetings/, Memories/, TODO/Personal.md, TODO/Work.md. Also fetch next week's calendar events using mcp__calendar__list_events. Send a structured weekly review with 5 sections: (1) Week in review — highlights from diary, meetings, memories, people; (2) Accomplishments — what was completed; (3) Still pending — open TODO items, flag anything stuck or overdue; (4) Priorities for next week — top 3-5 actions informed by TODOs and calendar; (5) Patterns & insights — recurring themes, interesting connections. Start with "Good morning Santi — here's your weekly review for [date range]."`

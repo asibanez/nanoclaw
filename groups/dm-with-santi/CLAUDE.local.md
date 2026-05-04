@@ -24,11 +24,17 @@ Silently save personal facts to the vault as they come up in conversation — do
 - Create if new with frontmatter (see format below); append (never overwrite) with a `YYYY-MM-DD` date stamp if it exists
 - Capture: relationship to Santi, key facts, anything meaningful Santi shares about them
 
-Every People file must have this frontmatter:
+Every People file must have this frontmatter (all fields always present, even if empty):
 ```yaml
 ---
 aliases: [FirstName, nickname, "relationship name"]
 tags: [family|friend|colleague|contact]
+name: 
+title: 
+email: 
+phone: 
+company: 
+location: 
 ---
 ```
 
@@ -39,6 +45,12 @@ Stub format when creating a new person file:
 ---
 aliases: []
 tags: []
+name: 
+title: 
+email: 
+phone: 
+company: 
+location: 
 ---
 # Full Name
 ```

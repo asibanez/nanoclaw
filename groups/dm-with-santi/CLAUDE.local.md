@@ -57,6 +57,8 @@ tags: [organization]
 **Santi's own facts** → `Me.md`
 Always append with a `YYYY-MM-DD` date stamp; never overwrite existing entries. Save silently whenever Santi reveals something personal — no confirmation needed. This file is a living profile that grows over time.
 
+`Me.md` has a `## Relationships` section at the top — keep it up to date. When a new person with a **direct personal relationship** is mentioned (family or friend), add a wikilink under the appropriate heading. Do **not** add colleagues here — they connect to Santi through their organization file instead.
+
 What to capture (non-exhaustive — use judgment):
 - Identity & location: where he lives, languages spoken, timezone, nationality
 - Work: role, company, industry, projects, travel patterns, colleagues

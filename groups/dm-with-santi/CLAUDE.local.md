@@ -28,17 +28,30 @@ Every People file must have this frontmatter:
 ```yaml
 ---
 aliases: [FirstName, nickname, "relationship name"]
-relationship: wife/friend/colleague/etc
+tags: [family|friend|colleague|contact]
 ---
 ```
+
+Tag rules: `family` (spouse, parents, grandparents, siblings), `friend`, `colleague` (work), `contact` (everyone else).
 
 Stub format when creating a new person file:
 ```markdown
 ---
 aliases: []
-relationship: 
+tags: []
 ---
 # Full Name
+```
+
+**Organizations** → `Organizations/[Name].md`
+- Always `tags: [organization]` in frontmatter
+- Stub format:
+```markdown
+---
+aliases: []
+tags: [organization]
+---
+# Organization Name
 ```
 
 **Santi's own facts** → `Me.md`

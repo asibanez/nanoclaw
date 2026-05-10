@@ -11,15 +11,24 @@
 
 ## Work colleagues
 - **Dave Lago** — Santi's co-worker at MAPFRE; based in Webster; meeting on agents (2026-05-02)
+- **Andrew Tanis** — Santi's co-worker at MAPFRE; involved in liability determination work
+- **César Quintero** — Santi's co-worker at MAPFRE; works on Sprout project
+- **Debashis** — Santi's co-worker at MAPFRE
 - **Enrique Laso** — CTO at MAPFRE; based in Webster; Santi's co-worker; meeting on agents (2026-05-02)
 - **Mireia Rojo** — Santi's manager at MAPFRE; based in Webster and Boston; meeting on agents (2026-05-02)
 
 ## Friends
+- **Alejandro Zarate** — friend and co-worker at Columbia University; from Mexico
+- **Teresa Chan** — co-worker at Columbia University; Director of the Master of Insurance Management program (where Santi teaches)
 - **Eugenio Briales** — friend ~8 years; goes to the gym with Santi (barre class, pool); lives in Andover; investment banker at E.B. Shaw Securities; married to Lila; they have a kid
+- **David Lagares** — friend; founder of Zenon startup (fundraising); email: davidlagares@gmail.com; met at Harvard Faculty Club gala (2026-05-05)
 
 ## Business contacts
 - **Daniel Prieto** — General Partner (Operaciones & Industria 4.0) at Noso Capital; based in Santiago de Compostela, Spain; from Vigo; friend of Eugenio Briales; tel: +34 666 57 29 65; email: dpr@nosocapital.eu; web: nosocapital.eu
 
+## Business contacts
+- **Patrick Clancy** — Director of Recruiting at Plymouth Rock Assurance; coordinating Santi's interview; tel: 617-951-1666; email: pclancy@plymouthrock.com
+
 ## Other contacts
 - **Claudia Palero** — student of Santi at EOI (Madrid); Santi writing her a recommendation letter
-- **Serephina Ha** — mentorship opportunity with FI (Founder Institute); awaiting Santi's reply
+- **Serephina Ha** — Managing Director at Founder Institute Boston; Santi is a startup mentor there; pending reply from Santi
